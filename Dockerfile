@@ -45,15 +45,19 @@ RUN if [ "${SSH}" != "0" ]; then echo "\e[0;36minstalling openssh-server\e[0m"; 
 		apt-get install -y openssh-server; \
 	fi
 
-RUN if [ "${SSH}" != "0" ]; then \
-	echo "#!/bin/sh\n"		\
-		 "/usr/sbin/sshd\n"	\
-		 "exec su node\n" | tee /entry.sh; \
-	else \
-	echo "#!/bin/sh\n"\
-		 "exec su node" | tee /entry.sh; \
-	fi
+RUN mkdir -p /tmp/test/firsttry
 
+RUN <<EOF
+	if [ "${SSH}" != "0" ]; then
+	echo "#!/bin/sh\n"\
+		 "/usr/sbin/sshd\n"\
+		 "if [ -d /tmp/test/firsttry ]; then echo 'enabling ssh'; rmdir /tmp/test/firsttry; exit 0; fi\n"\
+		 "exec su node\n" | tee /entry.sh;
+	else
+	echo "#!/bin/sh\n"
+		 "exec su node" | tee /entry.sh;
+	fi
+EOF
 RUN chmod +x /entry.sh
 
 ARG NODE_PASSWORD
