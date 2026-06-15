@@ -10,8 +10,10 @@ podman build . \
   --build-arg NODE_PASSWORD=npm --build-arg VIM=1 --build-arg SSH=1 \
   -t somepnpmdockerimage:latest
 ```
-### options
+### required
 setting `NODE_PASSWORD` to `null`'ll not define a password for the user
+- string NODE\_PASSWORD
+### options
 - bool VIM=0
 - bool EMACS=0
 - bool SSH=0
