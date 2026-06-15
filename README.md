@@ -12,7 +12,9 @@ podman build . \
 ```
 ### options
 setting `NODE_PASSWORD` to `null`'ll not define a password for the user
-
+- bool VIM=0
+- bool EMACS=0
+- bool SSH=0
 ## running
 running with podman (ssh enabled)
 ```fish
